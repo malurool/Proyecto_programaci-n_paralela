@@ -1,0 +1,22 @@
+=== K-means GPU Benchmark Sun May 24 09:13:35 PM -05 2026 ===
+NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition, 97887 MiB, 590.48.01
+make: Nothing to be done for 'gpu'.
+
+[ GPU — tile completo ]
+gpu_full           tile=540  px=1036800  :   50.7ms   13.1ms   13.7ms 
+
+[ CPU serial + OMP20 — misma escena ]
+cpu_serial         omp=1              :  132.7ms  133.1ms  132.4ms 
+cpu_omp20          omp=20             :   58.0ms   63.5ms   61.2ms 
+
+=== DONE Sun May 24 09:13:40 PM -05 2026 ===
+config,tile,pixels,time_ms,run
+gpu_full,540,1036800,50.7,1
+gpu_full,540,1036800,13.1,2
+gpu_full,540,1036800,13.7,3
+cpu_serial,540,1036800,132.7,1
+cpu_serial,540,1036800,133.1,2
+cpu_serial,540,1036800,132.4,3
+cpu_omp20,540,1036800,58.0,1
+cpu_omp20,540,1036800,63.5,2
+cpu_omp20,540,1036800,61.2,3

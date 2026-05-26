@@ -1,0 +1,76 @@
+=== K-means GPU Benchmark Sun May 24 09:06:36 PM -05 2026 ===
+NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition, 97887 MiB, 590.48.01
+/usr/local/cuda-13.1/bin/nvcc -std=c++17 -O3 -Isrc -arch=sm_100 --expt-relaxed-constexpr -o build/hadar_kmeans_gpu src/main_gpu.cu
+src/io.hpp(36): warning #1650-D: result of call is not used
+      fread(&ndim, 4, 1, f);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+src/io.hpp(38): warning #1650-D: result of call is not used
+      fread(out.shape.data(), 4, ndim, f);
+      ^
+
+src/io.hpp(43): warning #1650-D: result of call is not used
+      fread(out.data.data(), sizeof(float), n, f);
+      ^
+
+src/io.hpp(54): warning #1650-D: result of call is not used
+      fread(&ndim, 4, 1, f);
+      ^
+
+src/io.hpp(56): warning #1650-D: result of call is not used
+      fread(out.shape.data(), 4, ndim, f);
+      ^
+
+src/io.hpp(61): warning #1650-D: result of call is not used
+      fread(out.data.data(), sizeof(int32_t), n, f);
+      ^
+
+src/main_gpu.cu(52): error: no instance of overloaded function "atomicAdd" matches the argument list
+            argument types are: (long *, long long)
+          atomicAdd(d_changed, 1LL);
+          ^
+/usr/local/cuda-13.1/bin/../targets/x86_64-linux/include/crt/sm_90_rt.h(112): note #3326-D: function "atomicAdd(float4 *, float4)" does not match because argument #1 does not match parameter
+  static __attribute__((device)) __inline__ float4 atomicAdd(float4 *__address, float4 val) { }
+                                                   ^
+/usr/local/cuda-13.1/bin/../targets/x86_64-linux/include/crt/sm_90_rt.h(109): note #3326-D: function "atomicAdd(float2 *, float2)" does not match because argument #1 does not match parameter
+  static __attribute__((device)) __inline__ float2 atomicAdd(float2 *__address, float2 val) { }
+                                                   ^
+/usr/local/cuda-13.1/bin/../targets/x86_64-linux/include/sm_60_atomic_functions.h(93): note #3326-D: function "atomicAdd(double *, double)" does not match because argument #1 does not match parameter
+  static __inline__ __attribute__((device)) double atomicAdd(double *address, double val) { }
+                                                   ^
+/usr/local/cuda-13.1/bin/../targets/x86_64-linux/include/sm_20_atomic_functions.h(88): note #3326-D: function "atomicAdd(float *, float)" does not match because argument #1 does not match parameter
+  static __inline__ __attribute__((device)) float atomicAdd(float *address, float val) { }
+                                                  ^
+/usr/local/cuda-13.1/bin/../targets/x86_64-linux/include/device_atomic_functions.h(169): note #3326-D: function "atomicAdd(unsigned long long *, unsigned long long)" does not match because argument #1 does not match parameter
+  static __inline__ __attribute__((device)) unsigned long long int atomicAdd(unsigned long long int *address, unsigned long long int val) { }
+                                                                   ^
+/usr/local/cuda-13.1/bin/../targets/x86_64-linux/include/device_atomic_functions.h(91): note #3326-D: function "atomicAdd(unsigned int *, unsigned int)" does not match because argument #1 does not match parameter
+  static __inline__ __attribute__((device)) unsigned int atomicAdd(unsigned int *address, unsigned int val) { }
+                                                         ^
+/usr/local/cuda-13.1/bin/../targets/x86_64-linux/include/device_atomic_functions.h(89): note #3326-D: function "atomicAdd(int *, int)" does not match because argument #1 does not match parameter
+  static __inline__ __attribute__((device)) int atomicAdd(int *address, int val) { }
+                                                ^
+
+1 error detected in the compilation of "src/main_gpu.cu".
+make: *** [Makefile:23: build/hadar_kmeans_gpu] Error 2
+
+[ GPU — tile completo ]
+gpu_full           tile=540  px=1036800  :       ms       ms       ms 
+
+[ CPU serial + OMP20 — misma escena ]
+cpu_serial         omp=1              :  132.3ms  132.3ms  132.4ms 
+cpu_omp20          omp=20             :   62.0ms   58.7ms   63.4ms 
+
+=== DONE Sun May 24 09:06:40 PM -05 2026 ===
+config,tile,pixels,time_ms,run
+gpu_full,540,1036800,,1
+gpu_full,540,1036800,,2
+gpu_full,540,1036800,,3
+cpu_serial,540,1036800,132.3,1
+cpu_serial,540,1036800,132.3,2
+cpu_serial,540,1036800,132.4,3
+cpu_omp20,540,1036800,62.0,1
+cpu_omp20,540,1036800,58.7,2
+cpu_omp20,540,1036800,63.4,3

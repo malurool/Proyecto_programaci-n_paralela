@@ -1,0 +1,7 @@
+[IO::load] 118.2 ms
+K-means  k=6  iters=50  ranks=1  threads=1
+Scene: 540 x 1920  Bands: 49  Pixels: 1036800
+  iter  1  changed=479485
+  iter  2  changed=0
+[Kmeans::done] 133.3 ms
+Saved labels → /home/malurool/hadar_kmeans/results/kmeans_labels.bin

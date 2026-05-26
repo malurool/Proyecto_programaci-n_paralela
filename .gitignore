@@ -1,0 +1,10 @@
+build/
+__pycache__/
+*.pyc
+*.pyo
+*.slurm
+
+# Poster artifacts
+guia_poster.md
+guion_expo.md
+results/poster*
